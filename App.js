@@ -126,10 +126,13 @@
 // export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 import {Navigation} from 'react-native-navigation';
+import {Provider} from 'react-redux';
 
 import {registerScreens} from './src/screens';
+import configureStore from './src/store/store';
 
-registerScreens(); // this is where you register all of your app's screens
+const store = configureStore();
+registerScreens(store, Provider); // this is where you register all of your app's screens
 
 // start the app
 Navigation.startSingleScreenApp({
