@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginBottom: 15,
         fontSize: 18,
+        fontFamily: 'museo_regular',
     }
 });
 
