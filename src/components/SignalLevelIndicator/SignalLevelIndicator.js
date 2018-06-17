@@ -14,7 +14,7 @@ const signalLevelIndicator = (props) => {
     switch (props.level) {
         case LEVEL.RED:
             return (
-                <Icon size={iconSize} name={iconName} color="red" />
+                <Icon size={iconSize} name={iconName} color="#8c3842" />
             );
         case LEVEL.YELLOW:
             return (

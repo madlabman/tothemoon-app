@@ -25,13 +25,13 @@ const styles = StyleSheet.create({
     },
     backgroundContainer: {
         position: 'absolute',
-        left: '-50%',
-        width: '150%',
+        width: '100%',
         height: '100%',
+        bottom: 0,
         opacity: 0.7
     },
     backgroundImage: {
-        resizeMode: 'cover',
+        resizeMode: 'contain',
     }
 });
 

@@ -9,9 +9,25 @@ import logoImg from '../../assets/img/logo.png';
 import {receiveBalance, requestBalance} from '../../store/actions';
 
 class BalanceScreen extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    }
+
     fetchBalance = () => {
+        if (this.props.isBalanceFetching) return;
+
         this.props.onBalanceRequest();
         setTimeout(this.props.onBalanceReceive, 1000);
+    };
+
+    onNavigatorEvent = (event) => {
+        if (event.type === 'NavBarButtonPress') {
+            if (event.id === 'balance-refresh') {
+                this.fetchBalance();
+            }
+        }
     };
 
     render() {

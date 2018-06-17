@@ -6,7 +6,6 @@ import SignalListItem from '../../components/SignalListItem/SignalListItem';
 import DefaultContainer from '../../components/DefaultContainer/DefaultContainer';
 
 import logoImg from '../../assets/img/logo.png';
-import {receiveBalance, requestBalance} from '../../store/actions';
 
 class SignalsScreen extends React.Component {
     render() {
