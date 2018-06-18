@@ -1,5 +1,14 @@
 import React from 'react'
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+    Button,
+    Keyboard,
+    KeyboardAvoidingView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableWithoutFeedback,
+    View
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import startTabs from '../TabsLayout/tabsLayout';
@@ -7,33 +16,70 @@ import DefaultContainer from '../../components/DefaultContainer/DefaultContainer
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 class AuthScreen extends React.Component {
+    state = {
+        username: '',
+        password: '',
+        error: null
+    };
+
     loginHandler = () => {
-        startTabs();
+        //startTabs();
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                error: 'Не могу войти',
+            }
+        })
+    };
+
+    inputHandler = (key, value) => {
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                [key]: value
+            }
+        })
     };
 
     render() {
+        let errorMessage = this.state.error ? <ErrorMessage text={this.state.error}/> : null;
+
         return (
             <DefaultContainer>
-                <View style={styles.container}>
-                    <Text style={styles.enterFund}>Войти в фонд</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="Логин"
-                        placeholderTextColor="#adadad"
-                        underlineColorAndroid="transparent"
-                    />
-                    <TextInput
-                        style={[styles.textInput, styles.passwordInput]}
-                        placeholder="Пароль"
-                        placeholderTextColor="#adadad"
-                        underlineColorAndroid="transparent"
-                        secureTextEntry={true}
-                    />
-                    <Icon.Button name="sign-in" color="#fff" backgroundColor='#0fa395' onPress={this.loginHandler}>
-                        <Text style={styles.loginButton}>Войти</Text>
-                    </Icon.Button>
-                </View>
-                <ErrorMessage text="Неверный логин или пароль" />
+                <KeyboardAvoidingView behavior="padding">
+                    <View style={styles.container}>
+                        <Text style={styles.enterFund}>Войти в фонд</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder="Логин"
+                            placeholderTextColor="#adadad"
+                            underlineColorAndroid="transparent"
+                            onChangeText={value => this.inputHandler('username', value.trim())}
+                            value={this.state.username}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                        />
+                        <TextInput
+                            style={[styles.textInput, styles.passwordInput]}
+                            placeholder="Пароль"
+                            placeholderTextColor="#adadad"
+                            underlineColorAndroid="transparent"
+                            secureTextEntry={true}
+                            onChangeText={value => this.inputHandler('password', value.trim())}
+                            value={this.state.password}
+                        />
+                        <Icon.Button
+                            name="sign-in"
+                            color="#fff"
+                            backgroundColor='#0fa395'
+                            onPress={this.loginHandler}
+                            disabled={this.state.error === null}
+                        >
+                            <Text style={styles.loginButton}>Войти</Text>
+                        </Icon.Button>
+                        {errorMessage}
+                    </View>
+                </KeyboardAvoidingView>
             </DefaultContainer>
         )
     }
@@ -41,6 +87,7 @@ class AuthScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
     },
