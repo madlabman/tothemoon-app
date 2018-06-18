@@ -23,7 +23,7 @@ class AuthScreen extends React.Component {
     };
 
     loginHandler = () => {
-        //startTabs();
+        startTabs();
         this.setState(prevState => {
             return {
                 ...prevState,
@@ -73,7 +73,7 @@ class AuthScreen extends React.Component {
                             color="#fff"
                             backgroundColor='#0fa395'
                             onPress={this.loginHandler}
-                            disabled={this.state.error === null}
+                            disabled={this.state.error !== null}
                         >
                             <Text style={styles.loginButton}>Войти</Text>
                         </Icon.Button>

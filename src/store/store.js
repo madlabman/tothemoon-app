@@ -1,11 +1,13 @@
 import {createStore, combineReducers, compose} from 'redux'
 
 import balanceReducer from './reducers/balance'
-import signalsReducer from "./reducers/signals";
+import signalsReducer from './reducers/signals';
+import userReducer from './reducers/user';
 
 const rootReducer = combineReducers({
     balance: balanceReducer,
-    signals: signalsReducer
+    signals: signalsReducer,
+    user: userReducer
 });
 
 let composeEnhancers = compose;

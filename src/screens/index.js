@@ -9,5 +9,5 @@ export function registerScreens(store, provider) {
     Navigation.registerComponent('tothemoonapp.auth', () => AuthScreen, store, provider);
     Navigation.registerComponent('tothemoonapp.balance', () => BalanceScreen, store, provider);
     Navigation.registerComponent('tothemoonapp.signals', () => SignalsScreen, store, provider);
-    Navigation.registerComponent('tothemoonapp.account', () => AccountScreen);
+    Navigation.registerComponent('tothemoonapp.account', () => AccountScreen, store, provider);
 }
