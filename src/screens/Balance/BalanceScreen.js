@@ -16,8 +16,6 @@ class BalanceScreen extends React.Component {
     }
 
     fetchBalance = () => {
-        if (this.props.isBalanceFetching) return;
-
         this.props.onBalanceRequest();
     };
 

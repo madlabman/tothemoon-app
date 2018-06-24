@@ -1,7 +1,8 @@
-import {SIGNED_IN, AUTH_ERROR, SIGN_OUT} from '../actions/actionTypes';
+import {SIGNED_IN, AUTH_ERROR, SIGN_OUT, AUTH_REFRESH} from '../actions/actionTypes';
 
 const initialState = {
     isSignedIn: false,
+    isRefreshing: false,
     token: null,
     error: null
 };
@@ -13,7 +14,14 @@ export default authReducer = (authState = initialState, action) => {
                 ...authState,
                 isSignedIn: true,
                 token: action.token,
+                isRefreshing: false,
                 error: null
+            };
+        case AUTH_REFRESH:
+            return {
+                ...authState,
+                isRefreshing: true,
+                isSignedIn: false
             };
         case AUTH_ERROR:
             return {

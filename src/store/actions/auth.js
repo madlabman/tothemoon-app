@@ -1,4 +1,4 @@
-import {SIGNED_IN, AUTH_ERROR, SIGN_OUT} from './actionTypes';
+import {SIGNED_IN, AUTH_ERROR, SIGN_OUT, AUTH_REFRESH} from './actionTypes';
 import {
     setToken,
     setLoginData,
@@ -20,7 +20,7 @@ export const signIn = (data) => {
                         if (response.data.status === 'success') {
                             // Get header
                             const token = response.headers.authorization;
-                            if (token !== null) {
+                            if (token) {
                                 dispatch(tokenReceived(token));
                                 setLoginData(data.login, data.password);
                                 startTabs();
@@ -62,17 +62,22 @@ export const getTokenFromStore = () => {
 };
 
 export const refreshToken = () => {
-    return dispatch => {
-        getLoginData()
-            .then(loginData => {
-                console.log(loginData);
-                dispatch(signIn(loginData))
-            })
-            .catch(error => {
-                dispatch(authError({
-                    message: 'Необходимо войти, чтобы продолжить.'
-                }))
+    return (dispatch, getState) => {
+        if (!getState().auth.isRefreshing) {
+            dispatch({
+                type: AUTH_REFRESH
             });
+            getLoginData()
+                .then(loginData => {
+                    console.log(loginData);
+                    dispatch(signIn(loginData))
+                })
+                .catch(error => {
+                    dispatch(authError({
+                        message: 'Необходимо войти, чтобы продолжить.'
+                    }))
+                });
+        };
     }
 };
 
