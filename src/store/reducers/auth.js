@@ -30,12 +30,7 @@ export default authReducer = (authState = initialState, action) => {
                 error: action.error
             };
         case SIGN_OUT:
-            return {
-                ...authState,
-                isSignedIn: false,
-                token: null,
-                error: null
-            };
+            return initialState;
         default:
             return authState;
     }

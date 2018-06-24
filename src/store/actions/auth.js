@@ -9,6 +9,7 @@ import {
 } from '../../storage';
 import {getClient} from './axios';
 import startTabs from '../../screens/TabsLayout/tabsLayout';
+import App from '../../../App';
 
 export const signIn = (data) => {
     return dispatch => {
@@ -69,39 +70,33 @@ export const refreshToken = () => {
             });
             getLoginData()
                 .then(loginData => {
-                    console.log(loginData);
                     dispatch(signIn(loginData))
                 })
                 .catch(error => {
-                    dispatch(authError({
-                        message: 'Необходимо войти, чтобы продолжить.'
-                    }))
+                    dispatch({
+                        type: SIGN_OUT
+                    })
                 });
-        };
+        }
     }
 };
 
 export const removeTokenFromStore = () => {
     return dispatch => {
-        dispatch(clearStorage());
-        removeToken()
-            .then(iDunnoWhat => {
-                // Go to login screen
+        return dispatch(clearStorage())
+            .then(() => {
+                return removeToken();
+            })
+            .catch(error => {
+                console.log(error);
             });
+
     }
 };
 
 export const clearStorage = () => {
     return dispatch => {
-        removeLoginData()
-            .then(iDunnoWhat => {
-                return {
-                    type: SIGN_OUT
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        return removeLoginData();
     };
 };
 
@@ -114,7 +109,6 @@ export const tokenReceived = (token) => {
 };
 
 export const authError = error => {
-    // Go to login screen
     return {
         type: AUTH_ERROR,
         error: error.message
@@ -136,6 +130,16 @@ export const autoSignIn = () => {
 
 export const signOut = () => {
     return dispatch => {
-        dispatch(removeTokenFromStore());
+        dispatch(removeTokenFromStore())
+            .then(() => {
+                dispatch({
+                    type: SIGN_OUT
+                });
+                // Start app again
+                App();
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 };

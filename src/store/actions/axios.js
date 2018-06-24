@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {getTokenFromStore, refreshToken} from './auth';
+import {AlertIOS, Platform, ToastAndroid} from 'react-native';
 
 export const getClient = () => {
     return dispatch => {
@@ -15,17 +16,26 @@ export const getClient = () => {
                 },
 
                 error => {
-                    console.log(error.response);
                     // Error
                     if (error.response) {
                         // The request was made and the server responded with a status code
                         if (
                             error.response.status === 401
                         ) {
-                            // TODO: remove token and move to login screen
                             dispatch(refreshToken());
                         } else if (error.response.status === 500) {
                             return error;
+                        }
+                    } else {
+                        // No response
+                        const errorMessage = 'Не удалось обновить данные.';
+                        if (Platform.OS === 'android') {
+                            ToastAndroid(errorMessage);
+                        } else {
+                            AlertIOS.alert(
+                                null,
+                                errorMessage
+                            )
                         }
                     }
                 });
