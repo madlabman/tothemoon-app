@@ -1,34 +1,28 @@
 import React from 'react'
 import {
-    Button,
-    Keyboard,
     KeyboardAvoidingView,
     StyleSheet,
     Text,
     TextInput,
-    TouchableWithoutFeedback,
     View
 } from 'react-native';
+import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import startTabs from '../TabsLayout/tabsLayout';
 import DefaultContainer from '../../components/DefaultContainer/DefaultContainer';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import {signIn, autoSignIn} from "../../store/actions";
 
 class AuthScreen extends React.Component {
     state = {
         username: '',
         password: '',
-        error: null
     };
 
     loginHandler = () => {
-        startTabs();
-        this.setState(prevState => {
-            return {
-                ...prevState,
-                error: 'Не могу войти',
-            }
+        this.props.signIn({
+            login: this.state.username,
+            password: this.state.password,
         })
     };
 
@@ -41,12 +35,16 @@ class AuthScreen extends React.Component {
         })
     };
 
+    componentDidMount = () => {
+        this.props.autoSignIn();
+    };
+
     render() {
-        let errorMessage = this.state.error ? <ErrorMessage text={this.state.error}/> : null;
+        let errorMessage = this.props.error ? <ErrorMessage text={this.props.error}/> : null;
 
         return (
             <DefaultContainer>
-                <KeyboardAvoidingView behavior="padding">
+                <KeyboardAvoidingView behavior="padding" style={styles.keyboardView}>
                     <View style={styles.container}>
                         <Text style={styles.enterFund}>Войти в фонд</Text>
                         <TextInput
@@ -73,7 +71,10 @@ class AuthScreen extends React.Component {
                             color="#fff"
                             backgroundColor='#0fa395'
                             onPress={this.loginHandler}
-                            disabled={this.state.error !== null}
+                            disabled={
+                                this.state.username.trim() === '' ||
+                                this.state.password.trim() === ''
+                            }
                         >
                             <Text style={styles.loginButton}>Войти</Text>
                         </Icon.Button>
@@ -86,6 +87,10 @@ class AuthScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    keyboardView: {
+        flex: 1,
+        width: '100%'
+    },
     container: {
         flex: 1,
         alignItems: 'center',
@@ -116,4 +121,17 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AuthScreen;
+const mapStateToProps = state => {
+    return {
+        error: state.auth.error
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        signIn: loginData => dispatch(signIn(loginData)),
+        autoSignIn: () => dispatch(autoSignIn())
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);

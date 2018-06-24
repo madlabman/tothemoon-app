@@ -5,7 +5,6 @@ import SignalLevelIndicator from '../SignalLevelIndicator/SignalLevelIndicator'
 
 const signalListItem = (props) => (
     <View style={styles.signalListItem}>
-        <Text style={styles.signalName}>{props.name}</Text>
         <View style={styles.signalMetaContainer}>
             <SignalLevelIndicator level={props.level} />
             <Text style={styles.signalDate}>{props.date}</Text>

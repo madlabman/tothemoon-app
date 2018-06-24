@@ -4,19 +4,16 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import {connect} from 'react-redux';
 
 import DefaultContainer from '../../components/DefaultContainer/DefaultContainer';
-import {Navigation} from 'react-native-navigation';
-import navigatorStyle from '../navigatorStyle';
-import {fetchUser} from '../../store/actions/user';
+import {fetchUser, signOut} from '../../store/actions';
 
 class AccountScreen extends React.Component {
+
+    componentDidMount = () => {
+        this.props.fetchUser();
+    };
+
     handleLogout = () => {
-        Navigation.startSingleScreenApp({
-            screen: {
-                screen: 'tothemoonapp.auth',
-                title: 'ToTheMoon',
-                navigatorStyle
-            }
-        });
+        this.props.signOut();
     };
 
     render() {
@@ -64,7 +61,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchUser: () => dispatch(fetchUser)
+        fetchUser: () => dispatch(fetchUser()),
+        signOut: () => dispatch(signOut())
     }
 };
 

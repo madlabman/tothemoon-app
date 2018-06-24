@@ -5,17 +5,17 @@ const initialState = {
         {
             key: 'btc',
             symbol: 'btc',
-            amount: 1,
+            amount: 0,
         },
         {
             key: 'usd',
             symbol: 'dollar',
-            amount: 1,
+            amount: 0,
         },
         {
             key: 'rub',
             symbol: 'rub',
-            amount: 1,
+            amount: 0,
         },
     ],
     isFetching: false
@@ -33,7 +33,7 @@ const balanceReducer = (balanceState = initialState, action) => {
                 items: balanceState.items.map(item => {
                     return {
                         ...item,
-                        amount: item.amount * 2, // TODO: change logic
+                        amount: action.balance[item.key]
                     };
                 }),
                 isFetching: false

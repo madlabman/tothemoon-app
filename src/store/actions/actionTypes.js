@@ -10,3 +10,8 @@ export const FILTER_SIGNALS = 'FILTER_SIGNALS';
 
 // Users
 export const FETCH_USER = 'FETCH_USER';
+
+// Auth
+export const SIGNED_IN = 'SIGNED_IN';
+export const AUTH_ERROR = 'AUTH_ERROR';
+export const SIGN_OUT = 'SIGN_OUT';

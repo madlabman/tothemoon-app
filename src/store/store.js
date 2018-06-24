@@ -1,13 +1,16 @@
-import {createStore, combineReducers, compose} from 'redux'
+import {createStore, combineReducers, compose, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 
 import balanceReducer from './reducers/balance'
 import signalsReducer from './reducers/signals';
 import userReducer from './reducers/user';
+import authReducer from './reducers/auth';
 
 const rootReducer = combineReducers({
     balance: balanceReducer,
     signals: signalsReducer,
-    user: userReducer
+    user: userReducer,
+    auth: authReducer
 });
 
 let composeEnhancers = compose;
@@ -17,7 +20,7 @@ if (__DEV__) {
 }
 
 const configureStore = () => {
-    return createStore(rootReducer, composeEnhancers());
+    return createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 };
 
 export default configureStore;

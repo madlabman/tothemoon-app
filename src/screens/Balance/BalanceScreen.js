@@ -19,7 +19,6 @@ class BalanceScreen extends React.Component {
         if (this.props.isBalanceFetching) return;
 
         this.props.onBalanceRequest();
-        setTimeout(this.props.onBalanceReceive, 1000);
     };
 
     onNavigatorEvent = (event) => {
@@ -30,21 +29,24 @@ class BalanceScreen extends React.Component {
         }
     };
 
+    componentDidMount = () => {
+        this.fetchBalance();
+    };
+
     render() {
-        const balance = this.props.balance.map((elem, index) => (
-            <BalanceListItem key={index} symbol={elem.symbol} amount={elem.amount} />
+        const balanceList = this.props.balance.map((elem) => (
+            <BalanceListItem key={elem.key} symbol={elem.symbol} amount={elem.amount}/>
         ));
 
-        const fetchButton = this.props.isBalanceFetching ? (
-            <ActivityIndicator size="large" color="#fff"/>
-        ) : <Button title="Обновить" onPress={this.fetchBalance}/>;
+        const balance = this.props.isBalanceFetching ? (
+            <ActivityIndicator size="large" color="#00cdc3"/>
+        ) : balanceList;
 
         return (
             <DefaultContainer>
                 <View style={styles.innerContainer}>
                     <Image source={logoImg} style={styles.logo}/>
                     {balance}
-                    {/*{fetchButton}*/}
                 </View>
             </DefaultContainer>
         );
