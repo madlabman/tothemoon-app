@@ -2,3 +2,4 @@ export {signIn, autoSignIn, signOut, getTokenFromStore, tokenReceived, refreshTo
 export {requestBalance, receiveBalance} from './balance';
 export {requestSignals, receiveSignals} from './signals';
 export {fetchUser} from './user';
+export {getFCMTokenFromStore, receiveFCMToken, removeFCMToken} from './fcm';

@@ -1,5 +1,5 @@
 import {AsyncStorage} from 'react-native';
-import {LOGIN_KEY, PASSWORD_KEY, TOKEN_KEY} from './keys';
+import {LOGIN_KEY, PASSWORD_KEY, TOKEN_KEY, FCM_TOKEN_KEY} from './keys';
 
 export const getToken = () => {
     return AsyncStorage.getItem(TOKEN_KEY);
@@ -52,4 +52,16 @@ export const removeLoginData = () => {
         AsyncStorage.removeItem(LOGIN_KEY),
         AsyncStorage.removeItem(PASSWORD_KEY),
     ]);
+};
+
+export const getFCMTokenFromStorage = () => {
+    return AsyncStorage.getItem(FCM_TOKEN_KEY);
+};
+
+export const setFCMTokenToStorage = fcmToken => {
+    return AsyncStorage.setItem(FCM_TOKEN_KEY, fcmToken);
+};
+
+export const removeFCMTokenFromStorage = () => {
+    return AsyncStorage.removeItem(FCM_TOKEN_KEY);
 };

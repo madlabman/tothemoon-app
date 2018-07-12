@@ -1,13 +1,13 @@
 import axios from 'axios';
-import {getTokenFromStore, refreshToken} from './auth';
+import {authError, getTokenFromStore, refreshToken} from './auth';
 import {AlertIOS, Platform, ToastAndroid} from 'react-native';
 
 export const getClient = () => {
     return dispatch => {
         return new Promise((resolve, reject) => {
             const instance = axios.create({
-                // baseURL: 'http://fbe.chtoto.net/api/v1'
-                baseURL: 'http://localhost:8000/api/v1'
+                baseURL: 'https://app.tothemoonfund.com/api/v1'
+                // baseURL: 'http://localhost:8000/api/v1'
             });
 
             instance.interceptors.response.use(
@@ -28,9 +28,12 @@ export const getClient = () => {
                         }
                     } else {
                         // No response
-                        const errorMessage = 'Не удалось обновить данные.';
+                        dispatch(authError({
+                            message: 'Нет соединения...'
+                        }));
+                        const errorMessage = 'Не удалось соединиться.';
                         if (Platform.OS === 'android') {
-                            ToastAndroid(errorMessage);
+                            ToastAndroid.show(errorMessage, ToastAndroid.SHORT);
                         } else {
                             AlertIOS.alert(
                                 null,

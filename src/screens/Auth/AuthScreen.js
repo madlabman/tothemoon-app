@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import DefaultContainer from '../../components/DefaultContainer/DefaultContainer';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
-import {signIn, autoSignIn} from "../../store/actions";
+import {signIn, autoSignIn} from '../../store/actions';
 
 class AuthScreen extends React.Component {
     state = {

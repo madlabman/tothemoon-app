@@ -1,8 +1,14 @@
 import {Navigation} from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import navigatorStyle from '../navigatorStyle';
+import configureStore from '../../store/store';
+import {getFCMTokenFromStore} from '../../store/actions';
 
 const startTabs = () => {
+    // Getting FCM token being authenticated.
+    const store = configureStore();
+    store.dispatch(getFCMTokenFromStore());
+    // Start tabs app.
     Promise.all([
         Icon.getImageSource('credit-card', 30),
         Icon.getImageSource('bell', 30),

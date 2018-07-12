@@ -10,6 +10,7 @@ import {
 import {getClient} from './axios';
 import startTabs from '../../screens/TabsLayout/tabsLayout';
 import App from '../../../App';
+import {removeFCMToken} from './fcm';
 
 export const signIn = (data) => {
     return dispatch => {
@@ -96,6 +97,7 @@ export const removeTokenFromStore = () => {
 
 export const clearStorage = () => {
     return dispatch => {
+        dispatch(removeFCMToken());
         return removeLoginData();
     };
 };
