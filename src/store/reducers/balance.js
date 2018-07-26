@@ -33,7 +33,7 @@ const balanceReducer = (balanceState = initialState, action) => {
                 items: balanceState.items.map(item => {
                     return {
                         ...item,
-                        amount: action.balance[item.key]
+                        amount: action.balance.body[item.key]
                     };
                 }),
                 isFetching: false
